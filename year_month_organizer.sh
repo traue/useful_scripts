@@ -7,22 +7,17 @@ for FILE in *; do
   DIR_MONTH=$(stat -f "%Sm" -t "%m" "${FILE}");
   DEST=$DIR_YEAR"/"$DIR_MONTH"/";
   if [ -d "$DIR_YEAR" ]; then
-    if [ -d "$DEST" ]; then
-      echo 'Moving... ' $FILE " to " "$DEST" ;
-      mv "$FILE" "$DEST";
-    else
+    if ! [ -d "$DEST" ]; then
       cd $DIR_YEAR;
       mkdir $DIR_MONTH;
       cd ..;
-      echo 'Moving... ' $file " to " "$DEST" ;
-      mv "$FILE" "$DEST";
     fi
   else
     mkdir $DIR_YEAR;
     cd $DIR_YEAR;
     mkdir $DIR_MONTH;
     cd ..;
-    echo 'Moving... ' $FILE " to " "$DEST" ;
-    mv "$FILE" "$DEST";
   fi
+  echo 'Moving... ' $FILE " to " "$DEST" ;
+  mv "$FILE" "$DEST";
 done
